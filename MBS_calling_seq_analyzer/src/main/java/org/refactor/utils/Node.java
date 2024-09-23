@@ -1,19 +1,21 @@
 package org.refactor.utils;
 
+import org.refactor.analyzer.layer.LayerType;
+
 import java.util.*;
 
 public class Node {
-    String id;
-    String type;
+    String id;  // 类名
+    LayerType type;  // 类型：controller、service、repository、entity和其他类
     List<Edge> edges;
 
 
 
-    public String getType() {
+    public LayerType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(LayerType type) {
         this.type = type;
     }
 
@@ -25,7 +27,7 @@ public class Node {
         this.edges = edges;
     }
 
-    public Node(String id, String type) {
+    public Node(String id, LayerType type) {
         this.id = id;
         this.type = type;
         this.edges = new ArrayList<>();
