@@ -7,14 +7,16 @@ import org.refactor.analyzer.layer.LayerType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 @Slf4j
 @Data
 public class CallSeqTree {
-    private final Node root; // 整颗树的根结点，无语义
+//    private final Node root; // 整颗树的根结点，无语义
 
     // 用于快速查找已存在的节点
     private final Map<String, Node> nodeMap = new HashMap<>();
@@ -23,8 +25,17 @@ public class CallSeqTree {
     private static final Logger logger = LoggerFactory.getLogger(CallSeqTree.class);
 
     public CallSeqTree() {
-        this.root = new Node("root", LayerType.ROOT);
-        nodeMap.put(root.id, root);
+//        this.root = new Node("root", LayerType.ROOT);
+//        nodeMap.put(root.id, root);
+    }
+
+    /**
+     * 获取所有节点
+     *
+     * @return 节点列表
+     */
+    public List<Node> getNodes() {
+        return new ArrayList<>(nodeMap.values());
     }
 
 
