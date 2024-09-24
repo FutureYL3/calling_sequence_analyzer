@@ -1,16 +1,11 @@
 package org.refactor.analyzer.visualize;
 
-import lombok.extern.slf4j.Slf4j;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.refactor.utils.CallSeqTree;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-@Slf4j
 public class TreeVisualizer {
 
-    private static final Logger logger = LoggerFactory.getLogger(TreeVisualizer.class);
     /**
      * 可视化调用顺序树
      *
@@ -53,8 +48,6 @@ public class TreeVisualizer {
                     graphEdge.addAttribute("ui.label", edge.getWeight());
                 } catch (Exception e) {
                     // 边已经存在，可以选择累加权重或记录日志
-                    // 这里选择简单地记录日志
-//                    logger.error("边已存在: {} -> {}", sourceId, targetId);
                     System.out.println("边已存在: " + sourceId + " -> " + targetId);
                 }
 

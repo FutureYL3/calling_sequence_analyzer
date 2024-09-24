@@ -1,16 +1,37 @@
 package org.refactor.utils;
 
-import lombok.Data;
 import org.refactor.analyzer.layer.LayerType;
 
 import java.util.*;
 
-@Data
 public class Node {
     private String id;  // 类名
     private LayerType type;  // 类型：controller、service、repository、entity和其他类
     private List<Edge> edges;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public LayerType getType() {
+        return type;
+    }
+
+    public void setType(LayerType type) {
+        this.type = type;
+    }
+
+    public List<Edge> getEdges() {
+        return edges;
+    }
+
+    public void setEdges(List<Edge> edges) {
+        this.edges = edges;
+    }
 
     public Node(String id, LayerType type) {
         this.id = id;

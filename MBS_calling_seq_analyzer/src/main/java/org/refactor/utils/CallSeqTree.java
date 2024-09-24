@@ -1,32 +1,20 @@
 package org.refactor.utils;
 
-
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 import org.refactor.analyzer.layer.LayerType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-@Slf4j
-@Data
 public class CallSeqTree {
 //    private final Node root; // 整颗树的根结点，无语义
 
     // 用于快速查找已存在的节点
     private final Map<String, Node> nodeMap = new HashMap<>();
 
-    // 创建一个 Logger 实例
-    private static final Logger logger = LoggerFactory.getLogger(CallSeqTree.class);
 
     public CallSeqTree() {
-//        this.root = new Node("root", LayerType.ROOT);
-//        nodeMap.put(root.id, root);
     }
 
     /**
@@ -48,7 +36,6 @@ public class CallSeqTree {
     public Node getNode(String id) {
         Node result = nodeMap.get(id);
         if (result == null) {
-//            logger.warn("Node {} 不存在", id);
             System.out.println("Node " + id + " 不存在");
             return null;
         } else {
@@ -67,7 +54,6 @@ public class CallSeqTree {
             Node newNode = new Node(id, type);
             nodeMap.put(id, newNode);
         } else {
-//            logger.warn("Node {} 已存在", id);
             System.out.println("Node " + id + " 已存在");
         }
     }
@@ -82,7 +68,6 @@ public class CallSeqTree {
     public void addEdge(String sourceId, String targetId, LayerType sourceType) {
         LayerType targetType = determineTargetLayer(sourceType);
         if (targetType == null) {
-//            logger.warn("从 {} 到 {} 不符合调用关系", sourceId, targetId);
             System.out.println("从 " + sourceId + " 到 " + targetId + " 不符合调用关系");
             return; // 不符合从Controller到Service等的调用关系
         }

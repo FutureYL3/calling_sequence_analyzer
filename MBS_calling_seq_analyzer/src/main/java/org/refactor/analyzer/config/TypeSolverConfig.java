@@ -1,22 +1,19 @@
 package org.refactor.analyzer.config;
 
 import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
+import com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.JavaParserTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
 
-import org.apache.maven.model.Dependency;
-import org.apache.maven.model.Model;
-import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
-import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 public class TypeSolverConfig {
-    public static CombinedTypeSolver configureTypeSolver(String projectSrcPath) throws IOException {
+    public static CombinedTypeSolver configureTypeSolver(String projectSrcPath, String localMavenRepo) throws IOException {
         // 创建 CombinedTypeSolver
         CombinedTypeSolver combinedTypeSolver = new CombinedTypeSolver();
 
@@ -26,33 +23,24 @@ public class TypeSolverConfig {
         // 2. 解析项目源码
         combinedTypeSolver.add(new JavaParserTypeSolver(new File(projectSrcPath)));
 
-//        // 3. 解析 POM 文件中的依赖并获取 JAR 文件路径
-//        File pomFile = new File(projectSrcPath + "pom.xml");
-//        List<String> dependencies = resolveDependencies(pomFile);
+        // 3. 解析本地maven仓库依赖源码
+        combinedTypeSolver.add(new JavaParserTypeSolver(new File(localMavenRepo)));
 //
-//        // 4. 添加每个外部 JAR 文件到 TypeSolver
-//        for (String jarPath : dependencies) {
-//            combinedTypeSolver.add(new JarTypeSolver(new File(jarPath)));
+// 3. 解析本地 Maven 仓库中的 JAR 文件
+//        try (Stream<Path> jarFiles = Files.walk(Paths.get(localMavenRepo))) {
+//            jarFiles
+//                    .filter(path -> path.toString().endsWith(".jar"))  // 只处理 JAR 文件
+//                    .forEach(jarPath -> {
+//                        try {
+//                            combinedTypeSolver.add(new JarTypeSolver(jarPath.toFile()));
+//                        } catch (IOException e) {
+//                            System.err.println("无法解析 JAR 文件: " + jarPath + " - " + e.getMessage());
+//                        }
+//                    });
 //        }
 
         return combinedTypeSolver;
     }
 
-    /**
-     * 解析指定的 pom.xml 文件，并返回所有的依赖项。
-     *
-     * @param pomFilePath pom.xml 文件的绝对路径
-     * @return 依赖项列表
-     * @throws IOException            IO 异常
-     * @throws XmlPullParserException XML 解析异常
-     */
-    public static List<Dependency> parsePomDependencies(String pomFilePath) throws IOException, XmlPullParserException {
-        MavenXpp3Reader reader = new MavenXpp3Reader();
-        try (Reader fileReader = new FileReader(pomFilePath)) {
-            Model model = reader.read(fileReader);
-            model.setPomFile(new File(pomFilePath));
-            return model.getDependencies();
-        }
-    }
 
 }
