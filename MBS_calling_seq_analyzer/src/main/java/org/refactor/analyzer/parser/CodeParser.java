@@ -17,7 +17,7 @@ import java.util.Objects;
 public class CodeParser {
     private final JavaParser parser;
 
-    private static final Logger logger = LoggerFactory.getLogger(CodeParser.class);
+//    private static final Logger logger = LoggerFactory.getLogger(CodeParser.class);
 
     public CodeParser(JavaParser parser) {
         this.parser = parser;
@@ -37,7 +37,8 @@ public class CodeParser {
                     System.err.println("解析失败: " + file.getPath());
                 }
             } catch (FileNotFoundException e) {
-                logger.error("文件不存在: {}", file.getPath());
+//                logger.error("文件不存在: {}", file.getPath());
+                System.out.println("文件不存在: " + file.getPath());
             }
         }
 

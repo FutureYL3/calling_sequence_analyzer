@@ -10,14 +10,15 @@ import org.refactor.analyzer.parser.CodeParser;
 import org.refactor.analyzer.visualize.TreeVisualizer;
 import org.refactor.utils.CallSeqTree;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // 设置项目源码路径
-        String projectSrcPath = "/Users/yl/Projects/JavaProject/calling_sequence_analyzer/train-ticket/ts-order-service/src/main/java/order"; // 修改为你的项目源码路径
-
+//        String projectSrcPath = "/Users/yl/Projects/JavaProject/calling_sequence_analyzer/train-ticket/ts-order-service/src/main/java/order"; // 修改为你的项目源码路径
+        String projectSrcPath = "D:\\train-ticket-master\\";
         // 初始化 JavaParser
         JavaParser parser = JavaParserInitializer.initializeParser(projectSrcPath);
 
@@ -51,7 +52,7 @@ public class Main {
 //        }
 
         // 可视化调用图
-        TreeVisualizer visualizer = new TreeVisualizer();
-        visualizer.visualize(callSeqTree);
+//        TreeVisualizer visualizer = new TreeVisualizer();
+//        visualizer.visualize(callSeqTree);
     }
 }

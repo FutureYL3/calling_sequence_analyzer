@@ -1,9 +1,11 @@
 package org.refactor.analyzer;
 
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import com.github.javaparser.resolution.declarations.ResolvedMethodDeclaration;
+import com.github.javaparser.resolution.types.ResolvedType;
 import lombok.extern.slf4j.Slf4j;
 import org.refactor.analyzer.layer.LayerType;
 import org.refactor.utils.CallSeqTree;
@@ -51,6 +53,32 @@ public class CallSeqAnalyzer {
         public void visit(MethodCallExpr methodCall, CallSeqTree callSeqTree) {
             super.visit(methodCall, callSeqTree);
             try {
+//                // 获取方法调用的作用域（即调用者）
+//                Expression scope = methodCall.getScope().orElse(null);
+//
+//                // 如果存在作用域，尝试解析其类型
+//                if (scope != null) {
+//                    ResolvedType resolvedType = scope.calculateResolvedType();
+//                    String calledClassName = resolvedType.describe();
+//
+//                    // 获取调用者所属的层次
+//                    LayerType calledLayer = classLayerMap.getOrDefault(calledClassName, LayerType.OTHER);
+//
+//                    // 记录符合层次调用关系的调用
+//                    if (isValidLayerTransition(currentLayer, calledLayer)) {
+//                        String callerId = currentClassName + ":" + currentLayer.toString();
+//                        String calleeId = calledClassName + ":" + calledLayer.toString();
+//
+//                        // 添加边到调用顺序图
+//                        callSeqTree.addNode(callerId, currentLayer);
+//                        callSeqTree.addNode(calleeId, calledLayer);
+//                        callSeqTree.addEdge(callerId, calleeId, currentLayer);
+//                    }
+//                } else {
+//                    // 如果没有作用域，可能是一个静态方法调用或局部方法调用
+//                    System.out.println("无法解析方法调用的作用域: " + methodCall);
+//                }
+
                 ResolvedMethodDeclaration resolvedMethod = methodCall.resolve();
                 String calledClassName = resolvedMethod.declaringType().getClassName();
                 LayerType calledLayer = classLayerMap.getOrDefault(calledClassName, LayerType.OTHER);
@@ -68,7 +96,8 @@ public class CallSeqAnalyzer {
 
             } catch (Exception e) {
                 // 可能无法解析的方法调用，记录日志
-                logger.error("无法解析方法调用: {} in class {}", methodCall, currentClassName);
+//                logger.error("无法解析方法调用: {} in class {}", methodCall, currentClassName);
+                System.out.println("无法解析方法调用: " + methodCall + " in class " + currentClassName + " 报错信息为：" + e.getMessage());
             }
         }
 

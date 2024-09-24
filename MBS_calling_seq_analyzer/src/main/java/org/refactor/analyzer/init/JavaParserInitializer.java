@@ -6,8 +6,10 @@ import com.github.javaparser.symbolsolver.JavaSymbolSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
 import org.refactor.analyzer.config.TypeSolverConfig;
 
+import java.io.IOException;
+
 public class JavaParserInitializer {
-    public static JavaParser initializeParser(String projectSrcPath) {
+    public static JavaParser initializeParser(String projectSrcPath) throws IOException {
         CombinedTypeSolver combinedTypeSolver = TypeSolverConfig.configureTypeSolver(projectSrcPath);
 
         JavaSymbolSolver symbolSolver = new JavaSymbolSolver(combinedTypeSolver);

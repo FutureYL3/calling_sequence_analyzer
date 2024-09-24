@@ -54,8 +54,10 @@ public class TreeVisualizer {
                 } catch (Exception e) {
                     // 边已经存在，可以选择累加权重或记录日志
                     // 这里选择简单地记录日志
-                    logger.error("边已存在: {} -> {}", sourceId, targetId);
+//                    logger.error("边已存在: {} -> {}", sourceId, targetId);
+                    System.out.println("边已存在: " + sourceId + " -> " + targetId);
                 }
+
             }
         }
 
