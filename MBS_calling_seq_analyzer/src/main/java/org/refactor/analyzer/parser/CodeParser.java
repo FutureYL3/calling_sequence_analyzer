@@ -38,20 +38,6 @@ public class CodeParser {
             }
         }
 
-//        for (File file : listJavaFiles(localMavenRepoDir)) {
-//            try {
-//                ParseResult<CompilationUnit> result = parser.parse(file);
-//                if (result.isSuccessful() && result.getResult().isPresent()) {
-//                    compilationUnits.add(result.getResult().get());
-//                    System.out.println("解析成功: " + file.getPath());
-//                } else {
-//                    System.err.println("解析失败: " + file.getPath());
-//                }
-//            } catch (FileNotFoundException e) {
-//                System.out.println("文件不存在: " + file.getPath());
-//            }
-//        }
-
         return compilationUnits;
     }
 

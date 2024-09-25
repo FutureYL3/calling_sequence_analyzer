@@ -9,8 +9,8 @@ import org.refactor.analyzer.config.TypeSolverConfig;
 import java.io.IOException;
 
 public class JavaParserInitializer {
-    public static JavaParser initializeParser(String projectSrcPath, String localMavenRepo) throws IOException {
-        CombinedTypeSolver combinedTypeSolver = TypeSolverConfig.configureTypeSolver(projectSrcPath, localMavenRepo);
+    public static JavaParser initializeParser(String projectSrcPath, String localMavenRepo, String moduleSrcPath) throws IOException {
+        CombinedTypeSolver combinedTypeSolver = TypeSolverConfig.configureTypeSolver(projectSrcPath, localMavenRepo, moduleSrcPath);
 
         JavaSymbolSolver symbolSolver = new JavaSymbolSolver(combinedTypeSolver);
         ParserConfiguration parserConfiguration = new ParserConfiguration()

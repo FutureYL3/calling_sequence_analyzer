@@ -43,6 +43,19 @@ public class Node {
         edges.add(new Edge(target, 1.0)); // 边的权重设为 1.0
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node node = (Node) o;
+        return Objects.equals(id, node.id) && type == node.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, type);
+    }
+
     // 深度优先遍历并输出有至少两个孩子的节点
     public void dfsWithTwoOrMoreParentsHelper(Node parentNode, Node node, Map<Node, Set<Node>> parentCountMap) {
         if (node == null) {

@@ -16,7 +16,7 @@ public class MethodCollector {
         for (CompilationUnit cu : compilationUnits) {
             List<ClassOrInterfaceDeclaration> classes = cu.findAll(ClassOrInterfaceDeclaration.class);
             for (ClassOrInterfaceDeclaration cls : classes) {
-                String className = cls.getNameAsString();
+                String className = cls.getFullyQualifiedName().orElse(cls.getNameAsString());
                 LayerType layer = classLayerMap.getOrDefault(className, LayerType.OTHER);
 
                 // 仅收集目标层的类

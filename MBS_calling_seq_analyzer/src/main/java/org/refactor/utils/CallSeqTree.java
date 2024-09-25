@@ -75,6 +75,12 @@ public class CallSeqTree {
         Node sourceNode = getNode(sourceId);
         Node targetNode = getNode(targetId);
 
+        for (Edge edge : sourceNode.getEdges()) {
+            if (edge.getTarget().equals(targetNode)) {
+                return; // 避免重复添加边
+            }
+        }
+
         sourceNode.addEdge(targetNode);
     }
 
