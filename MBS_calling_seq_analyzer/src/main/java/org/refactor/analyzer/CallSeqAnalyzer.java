@@ -49,12 +49,14 @@ public class CallSeqAnalyzer {
                                     ResolvedReferenceTypeDeclaration resolvedType = type.resolve().asReferenceType().getTypeDeclaration().get();
                                     String qualifiedName = resolvedType.getQualifiedName();
                                     LayerType typeLayer = classLayerMap.getOrDefault(qualifiedName, LayerType.OTHER);
-                                    if (isValidLayerTransition(layer, typeLayer)) {
+//                                    if (isValidLayerTransition(layer, typeLayer)) {
+                                    if (classLayerMap.containsKey(qualifiedName)) {
                                         String callerId = className + ":" + layer.toString();
                                         String calleeId = qualifiedName + ":" + typeLayer.toString();
                                         callSeqTree.addNode(callerId, layer);
                                         callSeqTree.addNode(calleeId, typeLayer);
                                         callSeqTree.addEdge(callerId, calleeId, layer);
+//                                    }
                                     }
                                 }
                             }
@@ -95,7 +97,8 @@ public class CallSeqAnalyzer {
                     LayerType calledLayer = classLayerMap.getOrDefault(calledClassName, LayerType.OTHER);
 
                     // 记录符合层次调用关系的调用
-                    if (isValidLayerTransition(currentLayer, calledLayer)) {
+//                    if (isValidLayerTransition(currentLayer, calledLayer)) {
+                    if (classLayerMap.containsKey(calledClassName)) {
                         String callerId = currentClassName + ":" + currentLayer.toString();
                         String calleeId = calledClassName + ":" + calledLayer.toString();
 
@@ -103,6 +106,7 @@ public class CallSeqAnalyzer {
                         callSeqTree.addNode(callerId, currentLayer);
                         callSeqTree.addNode(calleeId, calledLayer);
                         callSeqTree.addEdge(callerId, calleeId, currentLayer);
+//                    }
                     }
                 } catch (Exception e) {
                     // 处理类型解析失败的情况

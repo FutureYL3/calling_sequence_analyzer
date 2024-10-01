@@ -20,10 +20,10 @@ public class MethodCollector {
                 LayerType layer = classLayerMap.getOrDefault(className, LayerType.OTHER);
 
                 // 仅收集目标层的类
-                if (layer == LayerType.CONTROLLER || layer == LayerType.SERVICE || layer == LayerType.REPOSITORY) {
+//                if (layer == LayerType.CONTROLLER || layer == LayerType.SERVICE || layer == LayerType.REPOSITORY) {
                     List<MethodDeclaration> methods = cls.getMethods();
                     classMethodsMap.put(className, methods);
-                }
+//                }
             }
         }
 
