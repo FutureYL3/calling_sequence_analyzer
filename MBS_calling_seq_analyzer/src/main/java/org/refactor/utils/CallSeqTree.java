@@ -1,6 +1,8 @@
 package org.refactor.utils;
 
 import org.refactor.analyzer.layer.LayerType;
+import org.refactor.utils.toJson.Point;
+import org.refactor.utils.toJson.PointTree;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -100,6 +102,44 @@ public class CallSeqTree {
                 return LayerType.ENTITY;
             default:
                 return null;
+        }
+    }
+
+    public PointTree convertToPointTree() {
+        // 将callSeqTree中所有指向service的边改为指向serviceImpl的边
+        List<Node> nodes = getNodes();
+        for (Node node : nodes) {
+            List<Edge> edges = node.getEdges();
+            for (Edge edge : edges) {
+                if (edge.getTarget().getId().endsWith("Service:SERVICE")) {
+                    for (Node node1 : nodes) {
+                        String[] split = edge.getTarget().getId().split(":");
+                        if (node1.getId().equals(split[0] + "Impl:SERVICE")) {
+                            edge.setTarget(node1);
+                        }
+                    }
+                }
+            }
+        }
+
+        Point root = new Point("root");
+        PointTree pointTree = new PointTree(root);
+        for (Node node : getNodes()) {
+            Point point = new Point(node.getId());
+            if (node.getType() == LayerType.CONTROLLER) {
+                root.addChild(point);
+                buildCallSeq(node, point);
+            }
+        }
+        return pointTree;
+    }
+
+    private void buildCallSeq(Node node, Point point) {
+        for (Edge edge : node.getEdges()) {
+            Node target = edge.getTarget();
+            Point child = new Point(target.getId());
+            point.addChild(child);
+            buildCallSeq(target, child);
         }
     }
 }

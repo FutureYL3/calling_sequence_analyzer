@@ -16,21 +16,7 @@ public class TreeVisualizer {
      * @param callSeqTree CallSeqTree 实例，包含所有节点和边的信息
      */
     public void visualize(CallSeqTree callSeqTree) {
-        // 将callSeqTree中所有指向service的边改为指向serviceImpl的边
-        List<Node> nodes = callSeqTree.getNodes();
-        for (Node node : nodes) {
-            List<Edge> edges = node.getEdges();
-            for (Edge edge : edges) {
-                if (edge.getTarget().getId().endsWith("Service:SERVICE")) {
-                    for (Node node1 : nodes) {
-                        String[] split = edge.getTarget().getId().split(":");
-                        if (node1.getId().equals(split[0] + "Impl:SERVICE")) {
-                            edge.setTarget(node1);
-                        }
-                    }
-                }
-            }
-        }
+
 
         // 设置 GraphStream 使用 Swing 界面
         System.setProperty("org.graphstream.ui", "swing");

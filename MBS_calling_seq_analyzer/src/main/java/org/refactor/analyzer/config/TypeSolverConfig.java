@@ -46,40 +46,16 @@ public class TypeSolverConfig {
         return combinedTypeSolver;
     }
 
-//    /**
-//     * 递归遍历目录，添加所有 JAR 文件到 TypeSolver。
-//     *
-//     * @param combinedTypeSolver CombinedTypeSolver 实例
-//     * @param directory          需要遍历的目录
-//     */
-//    private static void addAllJarTypeSolver(CombinedTypeSolver combinedTypeSolver, File directory, String[] jarPaths) {
-////        if (!directory.exists() || !directory.isDirectory()) {
-////            System.err.println("Maven 仓库路径无效: " + directory.getAbsolutePath());
-////            return;
-////        }
-//
-//        File[] files = directory.listFiles();
-//        if (files == null) return;
-//
-//        for (File file : files) {
-//            if (file.isDirectory()) {
-//                addAllJarTypeSolver(combinedTypeSolver, file); // 递归处理子目录
-//            } else if (file.getName().endsWith(".jar")) {
-//                try {
-//                    combinedTypeSolver.add(new JarTypeSolver(file.getAbsolutePath()));
-//                    System.out.println("已添加 JAR 到 TypeSolver: " + file.getAbsolutePath());
-//                } catch (Exception e) {
-//                    System.err.println("无法添加 JAR 文件到 TypeSolver: " + file.getAbsolutePath());
-//                }
-//            }
-//        }
-//    }
-
     private static List<String> resolveDependenciesJarPath(String srcPath, String localMavenRepo) {
+        // 请将以下 savePath 设置为一个合适的路径
+        // 如果是在 Windows 系统上，以下的 “\\” 不用改动
+        // 如果是在 Linux 或 macos 系统上，请将所有的 “\\” 替换为 “/”
         String savePath = "D:\\calling_sequence_analyzer\\MBS_calling_seq_analyzer\\src\\main\\resources\\dependencies-path.txt";
         try {
             // 构建命令
             ProcessBuilder builder = new ProcessBuilder();
+            // 执行命令 mvn dependency:build-classpath -Dmaven.repo.local=<localMavenRepo> -Dmdep.outputFile=<savePath>
+            // 请确保 mvn 命令在系统的环境变量路径中
             builder.command(
                     "D:\\Apps\\Idea\\IntelliJ IDEA 2024.1.4\\plugins\\maven\\lib\\maven3\\bin\\mvn.cmd", "-N", "dependency:build-classpath",
                     "-Dmaven.repo.local=" + localMavenRepo,

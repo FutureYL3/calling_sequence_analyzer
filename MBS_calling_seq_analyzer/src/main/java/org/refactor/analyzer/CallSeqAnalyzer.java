@@ -7,11 +7,8 @@ import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
-import com.github.javaparser.resolution.Resolvable;
-import com.github.javaparser.resolution.declarations.ResolvedMethodDeclaration;
 import com.github.javaparser.resolution.declarations.ResolvedReferenceTypeDeclaration;
 import com.github.javaparser.resolution.types.ResolvedType;
-import org.junit.Assert;
 import org.refactor.analyzer.layer.LayerType;
 import org.refactor.utils.CallSeqTree;
 
@@ -152,18 +149,18 @@ public class CallSeqAnalyzer {
         }
     }
 
-    private boolean isValidLayerTransition(LayerType callerLayer, LayerType calleeLayer) {
-        // 定义层之间有效的调用关系
-        switch (callerLayer) {
-            case CONTROLLER:
-                return calleeLayer == LayerType.SERVICE;
-            case SERVICE:
-                return calleeLayer == LayerType.REPOSITORY;
-            case REPOSITORY:
-                return calleeLayer == LayerType.ENTITY;
-            default:
-                return false;
-        }
-    }
+//    private boolean isValidLayerTransition(LayerType callerLayer, LayerType calleeLayer) {
+//        // 定义层之间有效的调用关系
+//        switch (callerLayer) {
+//            case CONTROLLER:
+//                return calleeLayer == LayerType.SERVICE;
+//            case SERVICE:
+//                return calleeLayer == LayerType.REPOSITORY;
+//            case REPOSITORY:
+//                return calleeLayer == LayerType.ENTITY;
+//            default:
+//                return false;
+//        }
+//    }
 
 }
