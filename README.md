@@ -25,8 +25,9 @@ java --version
    - 待分析模块的模块根目录路径
 3. 在 `Main.java` 的 `getDelombokedSrcPath` 方法中设置任意工作空间位置，并在[此处](https://projectlombok.org/download)下载 `lombok` 插件的 jar 包，将其一并放置在工作目录下，更名为 `lombok.jar`
 4. 在 `TypeSolverConfig.java` 的 `resolveDependenciesJarPath` 方法中设置变量 `savePath` 为任意路径 + `dependencies-path.txt`
+> 请注意：路径的分隔符，`Windows` 系统使用双反斜杠 `\\`，`macOS/Linux` 类系统使用单正斜杠 `/`
 
 ## 查看解析结果
 完成以上配置，请转到 `Main.java` 文件中，如果你处于 IDE 环境，直接运行 `main` 方法即可。如果你处于命令行环境，请使用 jdk 提供的命令行命令运行 `main` 方法。
 
-`main` 方法运行之后，会在本地的 `4567` 端口启动一个小型的 `http` 服务器，请打开浏览器访问 `localhost:4567`，类之前的调用关系会通过 `echarts` 渲染为树状图，你可以用鼠标与之交互来查看细节。
+`main` 方法运行之后，会在本地的 `4567` 端口启动一个小型的 `http` 服务器，请打开浏览器访问 `localhost:4567`，类之间的调用关系会通过 `echarts` 渲染为树状图，你可以用鼠标与之交互来查看细节。
