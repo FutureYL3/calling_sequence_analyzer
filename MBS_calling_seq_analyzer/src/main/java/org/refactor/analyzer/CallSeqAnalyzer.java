@@ -149,18 +149,6 @@ public class CallSeqAnalyzer {
         }
     }
 
-//    private boolean isValidLayerTransition(LayerType callerLayer, LayerType calleeLayer) {
-//        // 定义层之间有效的调用关系
-//        switch (callerLayer) {
-//            case CONTROLLER:
-//                return calleeLayer == LayerType.SERVICE;
-//            case SERVICE:
-//                return calleeLayer == LayerType.REPOSITORY;
-//            case REPOSITORY:
-//                return calleeLayer == LayerType.ENTITY;
-//            default:
-//                return false;
-//        }
-//    }
+
 
 }

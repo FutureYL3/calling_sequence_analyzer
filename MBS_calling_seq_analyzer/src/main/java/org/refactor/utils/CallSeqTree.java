@@ -137,9 +137,28 @@ public class CallSeqTree {
     private void buildCallSeq(Node node, Point point) {
         for (Edge edge : node.getEdges()) {
             Node target = edge.getTarget();
+            LayerType originType = node.getType();
+            LayerType targetType = target.getType();
+            if (!isValidLayerTransition(originType, targetType)) {
+                continue;
+            }
             Point child = new Point(target.getId());
             point.addChild(child);
             buildCallSeq(target, child);
+        }
+    }
+
+    private boolean isValidLayerTransition(LayerType callerLayer, LayerType calleeLayer) {
+        // 定义层之间有效的调用关系
+        switch (callerLayer) {
+            case CONTROLLER:
+                return calleeLayer == LayerType.SERVICE;
+            case SERVICE:
+                return calleeLayer == LayerType.REPOSITORY;
+            case REPOSITORY:
+                return calleeLayer == LayerType.ENTITY;
+            default:
+                return false;
         }
     }
 }
