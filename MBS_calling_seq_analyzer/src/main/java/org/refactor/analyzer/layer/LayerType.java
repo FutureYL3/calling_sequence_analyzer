@@ -5,6 +5,8 @@ public enum LayerType {
     CONTROLLER,
     SERVICE,
     REPOSITORY,
+    MAPPER,
     ENTITY,
+    MODEL,
     OTHER
 }

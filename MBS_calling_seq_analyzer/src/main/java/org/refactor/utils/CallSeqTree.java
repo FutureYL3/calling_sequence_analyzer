@@ -68,8 +68,8 @@ public class CallSeqTree {
      * @param sourceType     源节点类型（用于判断调用层次）
      */
     public void addEdge(String sourceId, String targetId, LayerType sourceType) {
-        LayerType targetType = determineTargetLayer(sourceType);
-        if (targetType == null) {
+        List<LayerType> targetTypes = determineTargetLayer(sourceType);
+        if (targetTypes.isEmpty()) {
             System.out.println("从 " + sourceId + " 到 " + targetId + " 不符合调用关系");
             return; // 不符合从Controller到Service等的调用关系
         }
@@ -92,17 +92,26 @@ public class CallSeqTree {
      * @param sourceType 源节点类型
      * @return 目标节点类型
      */
-    private LayerType determineTargetLayer(LayerType sourceType) {
+    private List<LayerType> determineTargetLayer(LayerType sourceType) {
+        ArrayList<LayerType> layerTypes = new ArrayList<>();
         switch (sourceType) {
             case CONTROLLER:
-                return LayerType.SERVICE;
+                layerTypes.add(LayerType.SERVICE);
+                break;
             case SERVICE:
-                return LayerType.REPOSITORY;
+                layerTypes.add(LayerType.REPOSITORY);
+                layerTypes.add(LayerType.MAPPER);
+                break;
             case REPOSITORY:
-                return LayerType.ENTITY;
+                layerTypes.add(LayerType.ENTITY);
+                break;
+            case MAPPER:
+                layerTypes.add(LayerType.MODEL);
+                break;
             default:
                 return null;
         }
+        return layerTypes;
     }
 
     public PointTree convertToPointTree() {
@@ -112,9 +121,11 @@ public class CallSeqTree {
             List<Edge> edges = node.getEdges();
             for (Edge edge : edges) {
                 if (edge.getTarget().getId().endsWith("Service:SERVICE")) {
+                    String[] split1 = edge.getTarget().getId().split("\\.");
+                    String className = split1[split1.length - 1].split(":")[0];
                     for (Node node1 : nodes) {
                         String[] split = edge.getTarget().getId().split(":");
-                        if (node1.getId().equals(split[0] + "Impl:SERVICE")) {
+                        if (node1.getId().equals(split[0] + "Impl:SERVICE") || node1.getId().endsWith(className + "Impl:SERVICE")) {
                             edge.setTarget(node1);
                         }
                     }
@@ -154,9 +165,11 @@ public class CallSeqTree {
             case CONTROLLER:
                 return calleeLayer == LayerType.SERVICE;
             case SERVICE:
-                return calleeLayer == LayerType.REPOSITORY;
+                return calleeLayer == LayerType.REPOSITORY || calleeLayer == LayerType.MAPPER;
             case REPOSITORY:
                 return calleeLayer == LayerType.ENTITY;
+            case MAPPER:
+                return calleeLayer == LayerType.MODEL;
             default:
                 return false;
         }

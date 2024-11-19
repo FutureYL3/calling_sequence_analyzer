@@ -2,6 +2,7 @@ package org.refactor.analyzer;
 
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
@@ -32,6 +33,7 @@ public class CallSeqAnalyzer {
             LayerType layer = classLayerMap.getOrDefault(className, LayerType.OTHER);
             List<MethodDeclaration> methods = entry.getValue();
 
+            // 处理 JPA Repository 类的泛型
             if (classLayerMap.get(className) == LayerType.REPOSITORY) {
                 for (MethodDeclaration method : methods) {
                     Type returnType = method.getType();
@@ -56,6 +58,34 @@ public class CallSeqAnalyzer {
 //                                    }
                                     }
                                 }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // 处理 MyBatis Mapper 类的方法参数
+            if (classLayerMap.get(className) == LayerType.MAPPER) {
+                for (MethodDeclaration method : methods) {
+                    NodeList<Parameter> parameters = method.getParameters();
+                    for (Parameter parameter : parameters) {
+                        Type paramType = parameter.getType();
+                        if (paramType.isClassOrInterfaceType()) {
+                            ClassOrInterfaceType classType = paramType.asClassOrInterfaceType();
+                            try {
+                                ResolvedReferenceTypeDeclaration resolvedType = classType.resolve().asReferenceType().getTypeDeclaration().get();
+                                String qualifiedName = resolvedType.getQualifiedName();
+                                LayerType paramLayer = classLayerMap.getOrDefault(qualifiedName, LayerType.OTHER);
+
+                                if (classLayerMap.containsKey(qualifiedName)) {
+                                    String callerId = className + ":" + layer.toString();
+                                    String calleeId = qualifiedName + ":" + paramLayer.toString();
+                                    callSeqTree.addNode(callerId, layer);
+                                    callSeqTree.addNode(calleeId, paramLayer);
+                                    callSeqTree.addEdge(callerId, calleeId, layer);
+                                }
+                            } catch (Exception e) {
+                                System.out.println("无法解析方法参数类型: " + paramType + " in method " + method.getNameAsString() + " of class " + className + " 报错信息为：" + e.getMessage());
                             }
                         }
                     }

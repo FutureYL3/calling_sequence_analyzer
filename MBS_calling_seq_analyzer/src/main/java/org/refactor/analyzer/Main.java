@@ -36,11 +36,11 @@ public class Main {
         */
         // 使用时请先修改以下三个路径为自己本地的路径
         // 设置项目源码路径
-        String projectSrcPath = "D:\\train-ticket-master"; // 修改为项目父模块根路径
+        String projectSrcPath = "D:\\mall4cloud"; // 修改为项目父模块根路径
         // 设置本地maven仓库路径
         String localMavenRepo = "C:\\Users\\yl\\.m2\\repository";
         // 设置模块源码根路径（包含pom文件的路径）
-        String moduleSrcPath = "D:\\train-ticket-master\\ts-order-service";
+        String moduleSrcPath = "D:\\mall4cloud\\mall4cloud-order";
         // delombok 模块源码，获取 delomboked 源码路径
         String delombokedModuleSrcPath = getDelombokedSrcPath(moduleSrcPath);
         // 初始化 JavaParser

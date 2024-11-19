@@ -35,9 +35,13 @@ public class LayerIdentifier {
         if (cls.isAnnotationPresent("Repository")) {
             return LayerType.REPOSITORY;
         }
+        if (cls.isAnnotationPresent("Mapper")) {
+            return LayerType.MAPPER;
+        }
         if (cls.isAnnotationPresent("Entity")) {
             return LayerType.ENTITY;
         }
+
 
         // 如果没有注解，可以通过包名识别
         Optional<String> packageName = cu.getPackageDeclaration().map(pd -> pd.getNameAsString());
@@ -52,8 +56,14 @@ public class LayerIdentifier {
             if (pkg.contains(".repository")) {
                 return LayerType.REPOSITORY;
             }
+            if (pkg.contains(".mapper")) {
+                return LayerType.MAPPER;
+            }
             if (pkg.contains(".entity")) {
                 return LayerType.ENTITY;
+            }
+            if (pkg.contains(".model")) {
+                return LayerType.MODEL;
             }
         }
 
