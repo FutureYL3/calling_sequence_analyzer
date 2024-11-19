@@ -6,7 +6,7 @@
 
 请确保能在终端中使用这些工具，如果不确定能否直接在终端中使用，请运行以下指令：
 ```bash
-maven --version
+mvn --version
 
 java --version
 ```
