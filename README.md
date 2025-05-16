@@ -1,4 +1,4 @@
-# calling_sequence_analyzer
+# Calling Sequence Analyzer
 ## 使用前准备工作：
 请确保系统已安装以下工具并设置了其对应可执行文件的环境变量：
 - `maven`
